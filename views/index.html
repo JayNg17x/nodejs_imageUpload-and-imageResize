@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nodejs upload and resize multiple images</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+	<style>
+		.preview-images {
+			width: 400px;
+			height: 400px;	
+		}
+		.row {
+			display: inline-block;
+
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-8 mt-3">
+				<h4>Nodejs upload and resize multiple images</h4>
+				<form class="mt-4" 
+					  action="/multiple-upload"
+					  mehod="POST"
+				 	  enctype="multipart/form-data">
+				 	<input 
+				 	type="file"
+				 	name="images"
+				 	multiple
+				 	id="input-images"
+				 	class="form-control-file border">
+				 	<input type="submit" class="btn btn-primary mt-2" value="Submit"> 
+				</form>
+			</div>
+		</div><hr>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="preview-images"></div>
+			</div>
+		</div>
+	</div>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+		$(document).ready(function() {
+        let imagesPreview = function(input, placeToInsertImagePreview) {
+          if (input.files) {
+            let filesAmount = input.files.length;
+            for (i = 0; i < filesAmount; i++) {
+              let reader = new FileReader();
+              reader.onload = function(event) {
+                $($.parseHTML("<img>"))
+                  .attr("src", event.target.result)
+                  .appendTo(placeToInsertImagePreview);
+              };
+              reader.readAsDataURL(input.files[i]);
+            }
+          }
+        };
+        $("#input-images").on("change", function() {
+          imagesPreview(this, "div.preview-images");
+        });
+      });    	
+    </script>
+</body>
+</html>
